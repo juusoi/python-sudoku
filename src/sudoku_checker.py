@@ -1,4 +1,11 @@
-def is_valid_sudoku(board):
+def is_valid_sudoku(board: list) -> bool:
+    if len(board) != 9:
+        return False
+
+    for row in board:
+        if len(row) != 9:
+            return False
+
     for row in board:
         if not is_valid_unit(row):
             return False
@@ -17,7 +24,7 @@ def is_valid_sudoku(board):
     return True
 
 
-def is_valid_unit(unit):
+def is_valid_unit(unit: list) -> bool:
     seen = set()
     for cell in unit:
         if cell != ".":
