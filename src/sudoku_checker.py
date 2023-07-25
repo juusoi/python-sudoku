@@ -1,5 +1,5 @@
-from sudoku_board import SudokuBoard
-from unit import Unit
+from src.sudoku_board import SudokuBoard
+from src.unit import Unit
 
 
 class SudokuChecker:
