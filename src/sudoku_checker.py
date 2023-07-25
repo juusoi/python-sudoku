@@ -32,7 +32,9 @@ def is_valid_column(board: list) -> bool:
 def is_valid_square(board: list) -> bool:
     for i in range(0, 9, 3):
         for j in range(0, 9, 3):
-            square = [board[row][col] for row in range(i, i + 3) for col in range(j, j + 3)]
+            square = [
+                board[row][col] for row in range(i, i + 3) for col in range(j, j + 3)
+            ]
             if not is_valid_unit(square):
                 return False
     return True

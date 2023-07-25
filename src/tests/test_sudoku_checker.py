@@ -62,7 +62,10 @@ def test_invalid_sudoku_invalid_structure():
 
 
 def test_invalid_board_size():
-    board = [["5", "3", ".", ".", "7", ".", ".", ".", "."], ["6", ".", ".", "1", "9", "5", ".", ".", "."]]
+    board = [
+        ["5", "3", ".", ".", "7", ".", ".", ".", "."],
+        ["6", ".", ".", "1", "9", "5", ".", ".", "."],
+    ]
     assert is_valid_sudoku(board) is False
 
 
