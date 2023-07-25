@@ -1,3 +1,5 @@
+![ci](https://github.com/juusoi/python-sudoku/actions/workflows/ci.yaml/badge.svg)
+
 # Sudoku Checker
 
 This is a Python project that provides a Sudoku checker utility. It allows you to verify the validity of a Sudoku board.
