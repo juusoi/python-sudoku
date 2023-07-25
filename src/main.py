@@ -1,4 +1,5 @@
-from sudoku_checker import is_valid_sudoku
+from sudoku_board import SudokuBoard
+from sudoku_checker import SudokuChecker
 
 # Example Sudoku board
 board = [
@@ -13,7 +14,17 @@ board = [
     [".", ".", ".", ".", "8", ".", ".", "7", "9"],
 ]
 
-if is_valid_sudoku(board):
-    print("Valid Sudoku")
-else:
-    print("Invalid Sudoku")
+sudoku = SudokuBoard(board)
+
+
+def check_sudoku(sudoku: SudokuBoard):
+    sudoku_checker = SudokuChecker(sudoku)
+    if sudoku_checker.is_valid_sudoku():
+        print("Valid Sudoku")
+    else:
+        print("Invalid Sudoku")
+
+
+if __name__ == "__main__":
+    print(sudoku)
+    check_sudoku(sudoku)

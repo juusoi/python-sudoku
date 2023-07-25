@@ -1,4 +1,7 @@
-from src.sudoku_checker import is_valid_sudoku
+import pytest
+
+from src.sudoku_board import SudokuBoard
+from src.sudoku_checker import SudokuChecker
 
 
 def test_valid_sudoku():
@@ -13,7 +16,7 @@ def test_valid_sudoku():
         [".", ".", ".", "4", "1", "9", ".", ".", "5"],
         [".", ".", ".", ".", "8", ".", ".", "7", "9"],
     ]
-    assert is_valid_sudoku(board) is True
+    assert SudokuChecker(SudokuBoard(board)).is_valid_sudoku() is True
 
 
 def test_invalid_sudoku():
@@ -28,22 +31,23 @@ def test_invalid_sudoku():
         [".", ".", ".", "4", "1", "9", ".", ".", "5"],
         [".", ".", ".", ".", "8", ".", ".", "7", "8"],  # Invalid: Duplicate 8
     ]
-    assert is_valid_sudoku(board) is False
+    assert SudokuChecker(SudokuBoard(board)).is_valid_sudoku() is False
 
 
 def test_invalid_sudoku_invalid_numbers():
-    board = [
-        ["5", "3", ".", ".", "7", ".", ".", ".", "."],
-        ["6", ".", ".", "1", "9", "5", ".", ".", "."],
-        [".", "9", "8", ".", ".", ".", ".", "6", "."],
-        ["8", ".", ".", ".", "6", ".", ".", ".", "3"],
-        ["4", ".", ".", "8", ".", "3", ".", ".", "1"],
-        ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
-        [".", "6", ".", ".", ".", ".", "2", "8", "."],
-        [".", ".", ".", "4", "1", "9", ".", ".", "."],
-        [".", ".", ".", ".", "8", ".", ".", "7", "10"],  # Invalid: Invalid number 10
-    ]
-    assert is_valid_sudoku(board) is False
+    with pytest.raises(ValueError):
+        board = [
+            ["5", "3", ".", ".", "7", ".", ".", ".", "."],
+            ["6", ".", ".", "1", "9", "5", ".", ".", "."],
+            [".", "9", "8", ".", ".", ".", ".", "6", "."],
+            ["8", ".", ".", ".", "6", ".", ".", ".", "3"],
+            ["4", ".", ".", "8", ".", "3", ".", ".", "1"],
+            ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
+            [".", "6", ".", ".", ".", ".", "2", "8", "."],
+            [".", ".", ".", "4", "1", "9", ".", ".", "."],
+            [".", ".", ".", ".", "8", ".", ".", "7", "10"],
+        ]  # Invalid: Invalid number 10
+        SudokuChecker(SudokuBoard(board)).is_valid_sudoku()
 
 
 def test_invalid_sudoku_invalid_structure():
@@ -58,27 +62,29 @@ def test_invalid_sudoku_invalid_structure():
         [".", ".", ".", "4", "1", "9", ".", ".", "."],
         [".", ".", ".", ".", "8", ".", ".", ".", "6"],  # Invalid: Incomplete row
     ]
-    assert is_valid_sudoku(board) is False
+    assert SudokuChecker(SudokuBoard(board)).is_valid_sudoku() is False
 
 
 def test_invalid_board_size():
-    board = [
-        ["5", "3", ".", ".", "7", ".", ".", ".", "."],
-        ["6", ".", ".", "1", "9", "5", ".", ".", "."],
-    ]
-    assert is_valid_sudoku(board) is False
+    with pytest.raises(ValueError):
+        board = [
+            ["5", "3", ".", ".", "7", ".", ".", ".", "."],
+            ["6", ".", ".", "1", "9", "5", ".", ".", "."],
+        ]
+        SudokuChecker(SudokuBoard(board)).is_valid_sudoku()
 
 
 def test_invalid_row_length():
-    board = [
-        ["5", "3", ".", ".", "7", ".", ".", ".", "."],
-        ["6", ".", ".", "1", "9", "5", ".", ".", "."],
-        [".", "9", "8", ".", ".", ".", ".", "6", "."],
-        ["8", ".", ".", ".", "6", ".", ".", ".", "3"],
-        ["4", ".", ".", "8", ".", "3", ".", ".", "1"],
-        ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
-        [".", "6", ".", ".", ".", ".", "2", "8", "."],
-        [".", ".", ".", "4", "1", "9", ".", ".", "5"],
-        [".", ".", ".", ".", "8", ".", ".", "7"],  # Invalid: Incomplete row
-    ]
-    assert is_valid_sudoku(board) is False
+    with pytest.raises(ValueError):
+        board = [
+            ["5", "3", ".", ".", "7", ".", ".", ".", "."],
+            ["6", ".", ".", "1", "9", "5", ".", ".", "."],
+            [".", "9", "8", ".", ".", ".", ".", "6", "."],
+            ["8", ".", ".", ".", "6", ".", ".", ".", "3"],
+            ["4", ".", ".", "8", ".", "3", ".", ".", "1"],
+            ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
+            [".", "6", ".", ".", ".", ".", "2", "8", "."],
+            [".", ".", ".", "4", "1", "9", ".", ".", "5"],
+            [".", ".", ".", ".", "8", ".", ".", "7"],  # Invalid: Incomplete row
+        ]
+        SudokuChecker(SudokuBoard(board)).is_valid_sudoku()
