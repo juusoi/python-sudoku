@@ -1,54 +1,29 @@
 def is_valid_sudoku(board: list) -> bool:
-    if not is_valid_size(board):
+    if not board or not is_valid_size(board):
         return False
-
-    if not is_valid_row(board):
-        return False
-
-    if not is_valid_column(board):
-        return False
-
-    if not is_valid_square(board):
-        return False
-
-    return True
+    return all([is_valid_row(board), is_valid_column(board), is_valid_square(board)])
 
 
 def is_valid_row(board: list) -> bool:
-    for row in board:
-        if not is_valid_unit(row):
-            return False
-    return True
+    return all(is_valid_unit(row) for row in board)
 
 
 def is_valid_column(board: list) -> bool:
-    for col in range(9):
-        column = [board[row][col] for row in range(9)]
-        if not is_valid_unit(column):
-            return False
-    return True
+    return all(is_valid_unit([board[row][col] for row in range(9)]) for col in range(9))
 
 
 def is_valid_square(board: list) -> bool:
-    for i in range(0, 9, 3):
-        for j in range(0, 9, 3):
-            square = [
-                board[row][col] for row in range(i, i + 3) for col in range(j, j + 3)
-            ]
-            if not is_valid_unit(square):
-                return False
-    return True
+    return all(
+        is_valid_unit(
+            [board[row][col] for row in range(i, i + 3) for col in range(j, j + 3)]
+        )
+        for i in range(0, 9, 3)
+        for j in range(0, 9, 3)
+    )
 
 
 def is_valid_size(board: list) -> bool:
-    if len(board) != 9:
-        return False
-
-    for row in board:
-        if len(row) != 9:
-            return False
-
-    return True
+    return len(board) == 9 and all(len(row) == 9 for row in board)
 
 
 def is_valid_unit(unit: list) -> bool:
