@@ -1,36 +1,39 @@
-def is_valid_sudoku(board: list) -> bool:
-    if not board or not is_valid_size(board):
-        return False
-    return all([is_valid_row(board), is_valid_column(board), is_valid_square(board)])
+from sudoku_board import SudokuBoard
+from unit import Unit
 
 
-def is_valid_row(board: list) -> bool:
-    return all(is_valid_unit(row) for row in board)
+class SudokuChecker:
+    def __init__(self, sudoku_board: SudokuBoard):
+        self.board = sudoku_board.board
 
-
-def is_valid_column(board: list) -> bool:
-    return all(is_valid_unit([board[row][col] for row in range(9)]) for col in range(9))
-
-
-def is_valid_square(board: list) -> bool:
-    return all(
-        is_valid_unit(
-            [board[row][col] for row in range(i, i + 3) for col in range(j, j + 3)]
+    def is_valid_sudoku(self) -> bool:
+        if not self.board or not self.is_valid_size():
+            return False
+        return all(
+            [self.is_valid_row(), self.is_valid_column(), self.is_valid_square()]
         )
-        for i in range(0, 9, 3)
-        for j in range(0, 9, 3)
-    )
 
+    def is_valid_row(self) -> bool:
+        return all(Unit(row).is_valid() for row in self.board)
 
-def is_valid_size(board: list) -> bool:
-    return len(board) == 9 and all(len(row) == 9 for row in board)
+    def is_valid_column(self) -> bool:
+        return all(
+            Unit([self.board[row][col] for row in range(9)]).is_valid()
+            for col in range(9)
+        )
 
+    def is_valid_square(self) -> bool:
+        return all(
+            Unit(
+                [
+                    self.board[row][col]
+                    for row in range(i, i + 3)
+                    for col in range(j, j + 3)
+                ]
+            ).is_valid()
+            for i in range(0, 9, 3)
+            for j in range(0, 9, 3)
+        )
 
-def is_valid_unit(unit: list) -> bool:
-    seen = set()
-    for cell in unit:
-        if cell != ".":
-            if cell in seen or not cell.isdigit() or int(cell) < 1 or int(cell) > 9:
-                return False
-            seen.add(cell)
-    return True
+    def is_valid_size(self) -> bool:
+        return len(self.board) == 9 and all(len(row) == 9 for row in self.board)
